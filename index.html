@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" oncontextmenu="return false">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,10 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         body {
@@ -87,21 +91,83 @@
     </div>
 
     <script>
-        const link = "https://www.canva.com/brand/join?token=zRERuVuvwxvMulcEDwxIRw&brandingVariant=edu&referrer=team-invite";
+        // Store link in an encoded format
+        const encodedLink = "aHR0cHM6Ly93d3cuY2FudmEuY29tL2JyYW5kL2pvaW4/dG9rZW49elJFUnVWdXZ3eHZNdWxjRUR3eElSdyZicmFuZGluZ1ZhcmlhbnQ9ZWR1JnJlZmVycmVyPXRlYW0taW52aXRl";
         
+        // Disable right click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // Disable Ctrl+U (View Source)
+            if (event.ctrlKey && event.key === 'u') {
+                event.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+Shift+I (Developer Tools)
+            if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+                event.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+Shift+J (Developer Tools)
+            if (event.ctrlKey && event.shiftKey && event.key === 'J') {
+                event.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+Shift+C (Inspector)
+            if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+                event.preventDefault();
+                return false;
+            }
+            // Disable F12 (Developer Tools)
+            if (event.key === 'F12') {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable dragging of elements
+        document.addEventListener('dragstart', function(event) {
+            event.preventDefault();
+        });
+
         function openAndHideLink() {
-            window.open(link, '_blank');
+            // Decode and open link
+            const decodedLink = atob(encodedLink);
+            window.open(decodedLink, '_blank');
+            
             localStorage.setItem('linkUsed', 'true');
             document.getElementById('buttonSection').style.display = 'none';
             document.getElementById('expiredMessage').style.display = 'block';
         }
 
+        // Check if link was previously used
         window.onload = function() {
             if (localStorage.getItem('linkUsed') === 'true') {
                 document.getElementById('buttonSection').style.display = 'none';
                 document.getElementById('expiredMessage').style.display = 'block';
             }
+
+            // Additional protection against dev tools
+            function detectDevTools() {
+                if (window.devtools.isOpen) {
+                    window.location.href = "about:blank";
+                }
+            }
+            
+            // Periodic check for dev tools
+            setInterval(detectDevTools, 1000);
         }
+
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Clear console
+        console.clear();
+        // Disable console.log
+        console.log = function() {};
     </script>
 </body>
 </html>
