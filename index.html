@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Now</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .btn-join {
+            background: #228be6;
+            color: white;
+            padding: 12px 35px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-join:hover {
+            background: #1c7ed6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(34, 139, 230, 0.2);
+        }
+
+        .btn-join:active {
+            transform: translateY(0);
+        }
+
+        .expired-message {
+            color: #868e96;
+            padding: 20px 0;
+            display: none;
+            font-size: 15px;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="buttonSection">
+            <button class="btn-join" onclick="openAndHideLink()">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+                Join Now
+            </button>
+        </div>
+        <div class="expired-message" id="expiredMessage">
+            This invitation has expired.
+        </div>
+    </div>
+
+    <script>
+        const link = "https://www.canva.com/brand/join?token=zRERuVuvwxvMulcEDwxIRw&brandingVariant=edu&referrer=team-invite";
+        
+        function openAndHideLink() {
+            window.open(link, '_blank');
+            localStorage.setItem('linkUsed', 'true');
+            document.getElementById('buttonSection').style.display = 'none';
+            document.getElementById('expiredMessage').style.display = 'block';
+        }
+
+        window.onload = function() {
+            if (localStorage.getItem('linkUsed') === 'true') {
+                document.getElementById('buttonSection').style.display = 'none';
+                document.getElementById('expiredMessage').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
